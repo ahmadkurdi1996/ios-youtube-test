@@ -29,15 +29,15 @@ jobs:
       run: /usr/bin/xcodebuild -version
 
     - name: To list all schemes in your workspace
-      run: xcodebuild -list -workspace livaat.xcworkspace
+      run: xcodebuild -list -workspace AnyApp.xcworkspace
       continue-on-error: true
 
     - name: To list all targets, build configurations, and schemes used in your project,
-      run: xcodebuild -list -project livaat.xcodeproj/
+      run: xcodebuild -list -project AnyApp.xcodeproj/
       continue-on-error: true
 
     - name: building the app
-      run: xcodebuild -project livaat.xcodeproj -scheme livaat -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
+      run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
       continue-on-error: true
 
     - name: listing
@@ -51,7 +51,7 @@ jobs:
       continue-on-error: true
 
     # - name: building the app
-    #   run: xcodebuild -project livaat.xcodeproj -scheme livaat -configuration Debug -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates
+    #   run: xcodebuild -project AnyApp.xcodeproj -scheme livaat -configuration Debug -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates
     # - name: building the app
     #   run: xcodebuild build-for-testing -workspace livaat.xcworkspace -scheme livaat -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
 
