@@ -19,8 +19,8 @@ jobs:
     - name: Xcode version 
       run: /usr/bin/xcodebuild -version
 
-    - name: print path
-      run: xcrun xcode-select --print-path
+    # - name: print path
+    #   run: xcrun xcode-select --print-path
 
     - name: select xcode 
       run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
@@ -37,7 +37,7 @@ jobs:
       continue-on-error: true
 
     - name: building the app
-      run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
+      run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
       continue-on-error: true
 
     - name: listing
