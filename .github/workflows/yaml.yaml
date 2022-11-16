@@ -94,6 +94,12 @@ jobs:
         run: xcodebuild -project "AnyApp.xcodeproj" -scheme "AnyApp" -destination "generic/platform=ios" -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -configuration "Release" build CODE_SIGNING_ALLOWED=NO 
         continue-on-error: true 
 
+      - name: building the app
+        run:  ls -lta ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
+        continue-on-error: true 
+
+              
+
       - name: export the app
         run: xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportOptionsPlist Info.plist -exportPath ${{GITHUB.WORKSPACE}}/myipa
         continue-on-error: true 
