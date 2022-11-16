@@ -101,7 +101,7 @@ jobs:
               
 
       - name: export the app
-        run: xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportOptionsPlist Info.plist -exportPath ${{GITHUB.WORKSPACE}}/myipa
+        run: xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportOptionsPlist ${{GITHUB.WORKSPACE}}/YourApp.xcarchive/Info.plist -exportPath ${{GITHUB.WORKSPACE}}/myipa
         continue-on-error: true 
 
 
