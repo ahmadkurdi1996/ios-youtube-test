@@ -91,8 +91,10 @@ jobs:
 
 
       - name: building the app
-        run: xcodebuild -project "AnyApp.xcodeproj" -scheme "AnyApp" -destination "generic/platform=ios" -configuration "Release" build CODE_SIGNING_ALLOWED=NO
+        run: xcodebuild -project "AnyApp.xcodeproj" -scheme "AnyApp" -destination "generic/platform=ios" -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -configuration "Release" build CODE_SIGNING_ALLOWED=NO 
         continue-on-error: true 
+
+
 
         # - name: build autosigning
         #   # run: xcodebuild -Project ./livaat.xcodeproj -scheme livaat -configuration Release build
