@@ -91,7 +91,7 @@ jobs:
 
 
       - name: building the app
-        run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
+        run: xcodebuild -project "AnyApp.xcodeproj" -scheme "AnyApp" -destination "generic/platform=ios" -configuration "Release" build CODE_SIGNING_ALLOWED=NO
         continue-on-error: true 
 
         # - name: build autosigning
