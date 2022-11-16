@@ -94,11 +94,15 @@ jobs:
         run: xcodebuild -project "AnyApp.xcodeproj" -scheme "AnyApp" -destination "generic/platform=ios" -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -configuration "Release" build CODE_SIGNING_ALLOWED=NO 
         continue-on-error: true 
 
+      - name: export the app
+        run: xcodebuild -exportArchive -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive -exportOptionsPlist Info.plist -exportPath ${{GITHUB.WORKSPACE}}/myipa
+        continue-on-error: true 
+
 
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: ${{GITHUB.WORKSPACE}}/YourApp.xcarchive # or path/to/artifact
+          path: ${{GITHUB.WORKSPACE}}/myipa # or path/to/artifact
 
               # - name: build autosigning
         #   # run: xcodebuild -Project ./livaat.xcodeproj -scheme livaat -configuration Release build
@@ -110,6 +114,8 @@ jobs:
         #       -configuration Debug -scheme livaat \
         #       -derivedDataPath DerivedData \
         #       -archivePath DerivedData/Archive/livaat archive 
+
+
 
 
 
