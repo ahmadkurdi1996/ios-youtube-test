@@ -95,8 +95,12 @@ jobs:
         continue-on-error: true 
 
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ${{GITHUB.WORKSPACE}}/YourApp.xcarchive # or path/to/artifact
 
-        # - name: build autosigning
+              # - name: build autosigning
         #   # run: xcodebuild -Project ./livaat.xcodeproj -scheme livaat -configuration Release build
         #   # run: xcodebuild -scheme "livaat" clean archive -archivePath "actions" -configuration "Release" -allowProvisioningUpdates
         #   run: xcodebuild build-for-testing -workspace AnyApp.xcworkspace -scheme AnyApp -destination generic/platform=iOS # -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
