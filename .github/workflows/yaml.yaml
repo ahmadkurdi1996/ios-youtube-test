@@ -34,76 +34,76 @@ jobs:
 
       #     # security import certificate.p12 -k build.keychain -P $P12_PASSWORD -T /usr/bin/codesign
       #     security set-key-Partition-list -S apple-tool:,apple:,codesign: -s -k "123456789" build.keychain
-    - name: Dump file hierarchy
-      run : ls -R
-    - uses: actions/checkout@v3
+      - name: Dump file hierarchy
+        run : ls -R
+      - uses: actions/checkout@v3
 
-    - run: ls -lta
+      - run: ls -lta
 
-    - name: Xcode version 
-      run: /usr/bin/xcodebuild -version
+      - name: Xcode version 
+        run: /usr/bin/xcodebuild -version
 
-    # - name: print path
-    #   run: xcrun xcode-select --print-path
+      # - name: print path
+      #   run: xcrun xcode-select --print-path
 
-    # - name: select xcode 
-    #   run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
+      # - name: select xcode 
+      #   run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
 
-    - name: Xcode version 
-      run: /usr/bin/xcodebuild -version
+      - name: Xcode version 
+        run: /usr/bin/xcodebuild -version
 
-    - name: To list all schemes in your workspace
-      run: xcodebuild -list -workspace AnyApp.xcworkspace
-      continue-on-error: true
+      - name: To list all schemes in your workspace
+        run: xcodebuild -list -workspace AnyApp.xcworkspace
+        continue-on-error: true
 
-    - name: To list all targets, build configurations, and schemes used in your project,
-      run: xcodebuild -list -project AnyApp.xcodeproj/
-      continue-on-error: true
+      - name: To list all targets, build configurations, and schemes used in your project,
+        run: xcodebuild -list -project AnyApp.xcodeproj/
+        continue-on-error: true
 
-    - name: Install the Apple certificate and provisioning profile
-      env:
-        BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-        BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
-        KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-      run: |
-        # create variables
-        CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-        PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-        KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
-        # import certificate and provisioning profile from secrets
-        echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-        echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
 
-        # create temporary keychain
-        security create-keychain -p "123456789" $KEYCHAIN_PATH
-        security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-        security unlock-keychain -p "123456789" $KEYCHAIN_PATH
+          # create temporary keychain
+          security create-keychain -p "123456789" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "123456789" $KEYCHAIN_PATH
 
-        # import certificate to keychain
-        security import ./ahmad.kurdi.ubitc.p12 -P "ubitc123" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-        security list-keychain -d user -s $KEYCHAIN_PATH
+          # import certificate to keychain
+          security import ./ahmad.kurdi.ubitc.p12 -P "ubitc123" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
 
-        # apply provisioning profile
-        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        cp ./9f9f30a7-7831-4075-9389-b16c5654da52.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp ./9f9f30a7-7831-4075-9389-b16c5654da52.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles
 
 
-    - name: building the app
-      run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
-      continue-on-error: true 
+      - name: building the app
+        run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
+        continue-on-error: true 
 
-      # - name: build autosigning
-      #   # run: xcodebuild -Project ./livaat.xcodeproj -scheme livaat -configuration Release build
-      #   # run: xcodebuild -scheme "livaat" clean archive -archivePath "actions" -configuration "Release" -allowProvisioningUpdates
-      #   run: xcodebuild build-for-testing -workspace AnyApp.xcworkspace -scheme AnyApp -destination generic/platform=iOS # -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
-      # # - name : build archive
-      #   run: |
-      #     xcodebuild -sdk iphoneos -project livaat.xcodeproj \
-      #       -configuration Debug -scheme livaat \
-      #       -derivedDataPath DerivedData \
-      #       -archivePath DerivedData/Archive/livaat archive 
+        # - name: build autosigning
+        #   # run: xcodebuild -Project ./livaat.xcodeproj -scheme livaat -configuration Release build
+        #   # run: xcodebuild -scheme "livaat" clean archive -archivePath "actions" -configuration "Release" -allowProvisioningUpdates
+        #   run: xcodebuild build-for-testing -workspace AnyApp.xcworkspace -scheme AnyApp -destination generic/platform=iOS # -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
+        # # - name : build archive
+        #   run: |
+        #     xcodebuild -sdk iphoneos -project livaat.xcodeproj \
+        #       -configuration Debug -scheme livaat \
+        #       -derivedDataPath DerivedData \
+        #       -archivePath DerivedData/Archive/livaat archive 
 
 
 
