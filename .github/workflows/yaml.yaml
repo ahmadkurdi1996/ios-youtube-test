@@ -79,70 +79,70 @@ jobs:
 
 
 
-name: Building and Deploying ios
+# name: Building and Deploying ios
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+# on:
+#   push:
+#     branches: [ "main" ]
+#   workflow_dispatch:
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: macos-latest
-    steps:
-    - name: Dump file hierarchy
-      run : ls -R
-    - uses: actions/checkout@v3
+#     runs-on: macos-latest
+#     steps:
+#     - name: Dump file hierarchy
+#       run : ls -R
+#     - uses: actions/checkout@v3
 
-    - run: ls -lta
+#     - run: ls -lta
 
-    - name: Xcode version 
-      run: /usr/bin/xcodebuild -version
+#     - name: Xcode version 
+#       run: /usr/bin/xcodebuild -version
 
-    # - name: print path
-    #   run: xcrun xcode-select --print-path
+#     # - name: print path
+#     #   run: xcrun xcode-select --print-path
 
-    - name: select xcode 
-      run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
+#     - name: select xcode 
+#       run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
 
-    - name: Xcode version 
-      run: /usr/bin/xcodebuild -version
+#     - name: Xcode version 
+#       run: /usr/bin/xcodebuild -version
 
-    - name: To list all schemes in your workspace
-      run: xcodebuild -list -workspace AnyApp.xcworkspace
-      continue-on-error: true
+#     - name: To list all schemes in your workspace
+#       run: xcodebuild -list -workspace AnyApp.xcworkspace
+#       continue-on-error: true
 
-    - name: To list all targets, build configurations, and schemes used in your project,
-      run: xcodebuild -list -project AnyApp.xcodeproj/
-      continue-on-error: true
+#     - name: To list all targets, build configurations, and schemes used in your project,
+#       run: xcodebuild -list -project AnyApp.xcodeproj/
+#       continue-on-error: true
 
-    - name: building the app
-      run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
-      continue-on-error: true
+#     - name: building the app
+#       run: xcodebuild -project AnyApp.xcodeproj -scheme AnyApp -allowProvisioningUpdates -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive
+#       continue-on-error: true
 
-    - name: listing
-      run: | 
-        ls -lta ${{GITHUB.WORKSPACE}}
-      continue-on-error: true
+#     - name: listing
+#       run: | 
+#         ls -lta ${{GITHUB.WORKSPACE}}
+#       continue-on-error: true
 
-    - name: listing
-      run: | 
-        ls -lta ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
-      continue-on-error: true
+#     - name: listing
+#       run: | 
+#         ls -lta ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
+#       continue-on-error: true
 
-    # - name: building the app
-    #   run: xcodebuild -project AnyApp.xcodeproj -scheme livaat -configuration Debug -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates
-    # - name: building the app
-    #   run: xcodebuild build-for-testing -workspace livaat.xcworkspace -scheme livaat -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
+#     # - name: building the app
+#     #   run: xcodebuild -project AnyApp.xcodeproj -scheme livaat -configuration Debug -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates
+#     # - name: building the app
+#     #   run: xcodebuild build-for-testing -workspace livaat.xcworkspace -scheme livaat -archivePath ${{GITHUB.WORKSPACE}}/YourApp.xcarchive archive -allowProvisioningUpdates CODE_SIGNING_ALLOWED=NO
 
 
-    - name: listing
-      run: | 
-        ls -lta ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
-      continue-on-error: true
+#     - name: listing
+#       run: | 
+#         ls -lta ${{GITHUB.WORKSPACE}}/YourApp.xcarchive
+#       continue-on-error: true
 
-    - name: listing
-      run: | 
-        ls -lta ${{GITHUB.WORKSPACE}}
-      continue-on-error: true
+#     - name: listing
+#       run: | 
+#         ls -lta ${{GITHUB.WORKSPACE}}
+#       continue-on-error: true
